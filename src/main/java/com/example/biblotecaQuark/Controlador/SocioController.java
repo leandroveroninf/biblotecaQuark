@@ -1,12 +1,10 @@
 package com.example.biblotecaQuark.Controlador;
 
-import com.example.biblotecaQuark.Modelo.FactorySocios.CreateSocio;
-import com.example.biblotecaQuark.Modelo.FactorySocios.CreateSocioVIP;
-import com.example.biblotecaQuark.Modelo.FactorySocios.ICreatorSocio;
-import com.example.biblotecaQuark.Modelo.FactorySocios.ISocio;
+import com.example.biblotecaQuark.Modelo.FactorySocios.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class SocioController {
@@ -40,7 +38,6 @@ public class SocioController {
 
         }
     }
-
     public static List<ISocio> getSocioList() {
         return socioList;
     }
