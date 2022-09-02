@@ -1,4 +1,4 @@
-package com.example.biblotecaQuark.Modelo.Singleton;
+package com.example.biblotecaQuark.Modelo.Libro;
 
 
 import com.example.biblotecaQuark.Modelo.Libro.Libro;
@@ -6,7 +6,6 @@ import com.example.biblotecaQuark.Modelo.Libro.Libro;
 public class Ejemplar {
 
     private Integer numEdition;
-    private static Integer idEdicion = 1;
 
     private Libro libro;
 
@@ -27,14 +26,6 @@ public class Ejemplar {
 
     public void setNumEdition(Integer numEdition) {
         this.numEdition = numEdition;
-    }
-
-    public static Integer getIdEdicion() {
-        return idEdicion;
-    }
-
-    public static void setIdEdicion(Integer idEdicion) {
-        Ejemplar.idEdicion = idEdicion;
     }
 
     public Libro getLibro() {

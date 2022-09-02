@@ -1,6 +1,6 @@
 package com.example.biblotecaQuark.Modelo.FactorySocios;
 
-import com.example.biblotecaQuark.Modelo.Singleton.Ejemplar;
+import com.example.biblotecaQuark.Modelo.Libro.Ejemplar;
 
 import java.util.List;
 
@@ -10,6 +10,11 @@ public class SocioProxy extends ISocio {
 
     public SocioProxy(ISocio socio){
         this.socio = (Socio) socio;
+        this.id = socio.id;
+        this.name = socio.name;
+        this.lasName = socio.lasName;
+        this.ejemplaresRetirados = socio.ejemplaresRetirados;
+        this.cantRetirar = socio.cantRetirar;
     }
 
     public Ejemplar devolverEjemplar(){
@@ -18,7 +23,18 @@ public class SocioProxy extends ISocio {
     }
 
     @Override
+    public void pedirEjemplar(Ejemplar ejemplar){
+        socio.pedirEjemplar(ejemplar);
+    }
+
+
+    @Override
     List<Ejemplar> listEjemplares() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return this.socio.toString();
     }
 }

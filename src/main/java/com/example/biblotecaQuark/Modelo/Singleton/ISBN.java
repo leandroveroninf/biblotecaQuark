@@ -1,4 +1,4 @@
-package com.example.biblotecaQuark.Modelo.Libro;
+package com.example.biblotecaQuark.Modelo.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class ISBN {
         isbnList = new ArrayList<String>();
     }
 
-    public static String getInstance(String obISBN){
+    public static Boolean getInstance(String obISBN){
         if (isbn == null) {
             isbn = new ISBN();
         }
@@ -23,14 +23,14 @@ public class ISBN {
         return agregarISBN(obISBN);
     }
 
-    private static String agregarISBN(String obISBN){
+    private static Boolean agregarISBN(String obISBN){
         List<String> isbnfilt = isbnList.stream().filter(isbnop -> Objects.equals(isbnop, obISBN)).toList();
 
         if(isbnfilt.isEmpty()){
             isbnList.add(obISBN);
-            return obISBN;
+            return true;
         }
-        return null;
+        return false;
     }
 
 }

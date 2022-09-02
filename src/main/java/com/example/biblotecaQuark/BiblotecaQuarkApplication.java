@@ -1,8 +1,9 @@
 package com.example.biblotecaQuark;
 
 import com.example.biblotecaQuark.Modelo.FactorySocios.*;
-import com.example.biblotecaQuark.Modelo.Singleton.Ejemplar;
+import com.example.biblotecaQuark.Modelo.Libro.Ejemplar;
 import com.example.biblotecaQuark.Modelo.Libro.Libro;
+import com.example.biblotecaQuark.Vista.CahinOfRepository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,34 @@ public class BiblotecaQuarkApplication {
 
 
 	public static void main(String[] args) {
+
+		MenuOpciones opcMenu = new OpcMenu();
+		MenuOpciones opcLibro = new OpcLibro();
+		MenuOpciones opcEjemp = new OpcEjemplares();
+		MenuOpciones opcSocio = new OpcSocio();
+
+
+		opcLibro.agregarSigOpc(opcSocio);
+		opcSocio.agregarSigOpc(opcEjemp);
+		opcEjemp.agregarSigOpc(opcMenu);
+		int opc = 0;
+		do {
+			System.out.println("******************");
+			System.out.println("****** Menu ******");
+			System.out.println("*********+********");
+			System.out.println("1 -> Libro");
+			System.out.println("2 -> Socio");
+
+			opc = sc.nextInt();
+
+			opcLibro.opcion(opc);
+		}while (opc != 3);
+
+
+	}
+
+
+	private static void operar(){
 		Integer opc = 0;
 		List<Libro> libroList = new ArrayList<>();
 		List<ISocio> socioList = new ArrayList<>();
@@ -24,7 +53,7 @@ public class BiblotecaQuarkApplication {
 
 		do {
 
-			 opc = menu();
+			opc = menu();
 
 
 			switch (opc) {
@@ -70,7 +99,7 @@ public class BiblotecaQuarkApplication {
 					System.out.println("Seleccione un id");
 					if(opcSc == 1){
 
-						List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof Socio).toList();
+						List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof SocioProxy).toList();
 
 						System.out.println("Socios comunes");
 						soscioSelcPrestar(sociComun, libroList);
@@ -92,7 +121,7 @@ public class BiblotecaQuarkApplication {
 					System.out.println("Seleccione un id");
 					if(opcSc == 1){
 
-						List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof Socio).toList();
+						List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof SocioProxy).toList();
 
 						System.out.println("Socios comunes");
 						socioSelcDevolver(sociComun, libroList);
@@ -109,10 +138,9 @@ public class BiblotecaQuarkApplication {
 					System.out.println("1 -> Socio comun");
 					System.out.println("2 -> Socio VIP");
 					int opcSc = sc.nextInt();
-					System.out.println("Seleccione un id");
 					if(opcSc == 1){
 
-						List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof Socio).toList();
+						List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof SocioProxy).toList();
 						System.out.println("Socios comunes");
 						sociComun.forEach(socio -> System.out.println(socio.toString()));
 
@@ -125,8 +153,8 @@ public class BiblotecaQuarkApplication {
 			}
 
 		}while (opc != 10);
-
 	}
+
 
 	public static void socioSelcDevolver(List<ISocio> socioList, List<Libro> libroList){
 		socioList.forEach(socio -> {
@@ -184,6 +212,8 @@ public class BiblotecaQuarkApplication {
 		});
 
 	}
+
+	// Pasado
 	public static List<Libro> dataLibro(){
 
 

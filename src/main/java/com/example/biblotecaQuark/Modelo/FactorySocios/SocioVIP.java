@@ -1,7 +1,7 @@
 package com.example.biblotecaQuark.Modelo.FactorySocios;
 
 
-import com.example.biblotecaQuark.Modelo.Singleton.Ejemplar;
+import com.example.biblotecaQuark.Modelo.Libro.Ejemplar;
 
 import java.util.List;
 

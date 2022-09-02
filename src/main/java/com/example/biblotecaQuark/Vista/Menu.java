@@ -3,11 +3,14 @@ package com.example.biblotecaQuark.Vista;
 import java.util.Scanner;
 
 public class Menu {
-    private static Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
-    private static Integer opc = 0;
+    private int opc = 0;
 
-    public static Integer menuPrincipal(){
+    public Menu(){
+
+    }
+    public Integer menuPrincipal(){
         System.out.println("******************");
         System.out.println("****** Menu ******");
         System.out.println("*********+********");
@@ -19,7 +22,7 @@ public class Menu {
         return sc.nextInt();
     }
 
-    public static int menuSocio(){
+    public int menuSocio(){
         System.out.println("************************");
         System.out.println("****** Menu socio ******");
         System.out.println("*********+**************");
@@ -29,7 +32,7 @@ public class Menu {
         return opc;
     }
 
-    public static int menuLibro(){
+    public int menuLibro(){
         System.out.println("************************");
         System.out.println("****** Menu Libro ******");
         System.out.println("*********+**************");

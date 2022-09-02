@@ -1,7 +1,7 @@
 package com.example.biblotecaQuark.Modelo.Libro;
 
 import com.example.biblotecaQuark.Modelo.FactorySocios.ISocio;
-import com.example.biblotecaQuark.Modelo.Singleton.Ejemplar;
+import com.example.biblotecaQuark.Modelo.Singleton.ISBN;
 import com.example.biblotecaQuark.Modelo.Singleton.Prestamo;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class Libro implements ILibro{
 
     @Override
     public Boolean crearISBN(String isbn) {
-        if(ISBN.getInstance(isbn).isEmpty()){
+        if(!ISBN.getInstance(isbn)){
             return false;
         }
         this.IBNS = isbn;

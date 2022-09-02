@@ -1,54 +1,35 @@
 package com.example.biblotecaQuark.Modelo.Singleton;
 
+import com.example.biblotecaQuark.Modelo.FactorySocios.ISocio;
 import com.example.biblotecaQuark.Modelo.FactorySocios.Socio;
+import com.example.biblotecaQuark.Modelo.Libro.Ejemplar;
 
 import java.util.List;
 
 
 public class Prestamo {
 
-    private Prestamo prestamo = null;
-    private Ejemplar ejemplar;
+    private static Prestamo prestamo = null;
+    private static Ejemplar ejemplar;
+    private static ISocio socio;
 
-    private List<Socio> socioList;
+    private static List<Socio> socioList;
 
-    private Prestamo(Ejemplar ej){
+    private Prestamo(Ejemplar ej, ISocio socio){
         ejemplar = ej;
 
     }
 
-    public Prestamo getInstance(Ejemplar ejemplar){
+    public static Prestamo getInstance(Ejemplar ejemplar, ISocio socio){
         if(prestamo == null){
-            prestamo = new Prestamo(ejemplar);
+            prestamo = new Prestamo(ejemplar, socio);
             return prestamo;
         }else{
             return prestamo;
         }
     }
 
-    public Prestamo getPrestamo() {
-        return prestamo;
-    }
 
-    public void setPrestamo(Prestamo prestamo) {
-        this.prestamo = prestamo;
-    }
-
-    public Ejemplar getEjemplar() {
-        return ejemplar;
-    }
-
-    public void setEjemplar(Ejemplar ejemplar) {
-        this.ejemplar = ejemplar;
-    }
-
-    public List<Socio> getSocioList() {
-        return socioList;
-    }
-
-    public void setSocioList(List<Socio> socioList) {
-        this.socioList = socioList;
-    }
 
     // TO STRING
 

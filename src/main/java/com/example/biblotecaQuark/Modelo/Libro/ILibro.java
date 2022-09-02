@@ -1,7 +1,6 @@
 package com.example.biblotecaQuark.Modelo.Libro;
 
 import com.example.biblotecaQuark.Modelo.FactorySocios.ISocio;
-import com.example.biblotecaQuark.Modelo.Singleton.Ejemplar;
 
 
 public interface ILibro {
