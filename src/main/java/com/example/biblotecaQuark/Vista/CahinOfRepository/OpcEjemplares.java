@@ -1,6 +1,6 @@
 package com.example.biblotecaQuark.Vista.CahinOfRepository;
 
-import com.example.biblotecaQuark.Controlador.EjemplarController;
+import com.example.biblotecaQuark.Presentador.EjemplarController;
 
 public class OpcEjemplares extends MenuOpciones{
     @Override
@@ -13,6 +13,7 @@ public class OpcEjemplares extends MenuOpciones{
                 System.out.println("*********+**************");
                 System.out.println("1 -> Agregar ejemplar");
                 System.out.println("2 -> Listar ejemplares");
+                System.out.print("-> ");
                 opcSel = sc.nextInt();
                 if (opcSel == 1) {
                     EjemplarController.addEjempalar();

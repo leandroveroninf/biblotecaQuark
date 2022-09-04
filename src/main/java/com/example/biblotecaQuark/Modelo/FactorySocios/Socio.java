@@ -21,13 +21,17 @@ public class Socio extends ISocio{
     // TO STRING
     @Override
     public String toString() {
-        return "Socio{" +
-                "name='" + name + '\'' +
-                ", lasName='" + lasName + '\'' +
-                ", id=" + id +
-                ", ejemplaresRetirados=" + ejemplaresRetirados +
-                ", cantRetirar=" + cantRetirar +
-                '}';
+
+        return "\n-----------------------------\n" +
+                "SOCIO" +"\n"+
+                "id: "+ id + "\n"+
+                "name: "+ name +"\n" +
+                "lasName: "+ lasName +"\n" +
+                "Cantidad que puede retirar: "+cantRetirar +"\n"+
+                "Ejemplares Retirados: -> \t\t "+ ejemplaresRetirados+"\n" +
+                "-----------------------------\n";
+
+
     }
 
     @Override

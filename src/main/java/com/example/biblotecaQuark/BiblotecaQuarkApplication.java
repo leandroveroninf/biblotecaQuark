@@ -35,6 +35,7 @@ public class BiblotecaQuarkApplication {
 			System.out.println("2 -> Socio");
 			System.out.println("3 -> Ejemplar");
 			System.out.println("4 -> Salir");
+			System.out.print("-> ");
 
 			opc = sc.nextInt();
 

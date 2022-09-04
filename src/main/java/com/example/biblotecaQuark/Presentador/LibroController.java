@@ -1,21 +1,31 @@
-package com.example.biblotecaQuark.Controlador;
+package com.example.biblotecaQuark.Presentador;
 
 import com.example.biblotecaQuark.Modelo.FactorySocios.ISocio;
+import com.example.biblotecaQuark.Modelo.FactorySocios.Socio;
 import com.example.biblotecaQuark.Modelo.FactorySocios.SocioProxy;
 import com.example.biblotecaQuark.Modelo.FactorySocios.SocioVIP;
 import com.example.biblotecaQuark.Modelo.Libro.Ejemplar;
 import com.example.biblotecaQuark.Modelo.Libro.Libro;
+import com.example.biblotecaQuark.Modelo.Prestamo.Prestamo;
+import com.example.biblotecaQuark.Modelo.Prestamo.PrestamoTypo;
+import com.example.biblotecaQuark.Presentador.StrategyMsj.ContextMensaje;
+import com.example.biblotecaQuark.Presentador.StrategyMsj.MsjSocio;
+import com.example.biblotecaQuark.Presentador.StrategyMsj.MsjSocioDescripcion;
+import com.example.biblotecaQuark.Presentador.StrategyMsj.TyposDescripcion;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class LibroController {
     private static List<Libro> libroList;
     private static Scanner sc = new Scanner(System.in);
 
+    private static ContextMensaje contextMensaje = new ContextMensaje();
+
+    // Para crear los libros
     public static void dataLibro(){
         libroList = new ArrayList<>();
         System.out.println("Cantidad de libros");
+        System.out.print("-> ");
         int cantLicbos = 1;
         cantLicbos = sc.nextInt();
 
@@ -23,18 +33,27 @@ public class LibroController {
             System.out.println("Libro ----");
             sc.nextLine();
             System.out.println("-> name");
+            System.out.print("-> ");
             String nombre = sc.nextLine();
             System.out.println("-> autor");
+            System.out.print("-> ");
             String autor = sc.nextLine();
             System.out.println("-> IBNS");
+            System.out.print("-> ");
             String ibns = sc.nextLine();
             System.out.println("Cantidad de ejemlates");
+            System.out.print("-> ");
             Integer cantEjm = sc.nextInt();
+            System.out.println("Ubicacion de los ejempalres");
+            System.out.print("-> ");
+            sc.nextLine();
+            String ubicacion = sc.nextLine();
 
             Libro libro = new Libro(nombre, autor);
             boolean atISBN = libro.crearISBN(ibns);
             while(!atISBN){
                 System.out.println("-> IBNS");
+                System.out.print("-> ");
                 sc.nextLine();
                 ibns = sc.nextLine();
                 atISBN = libro.crearISBN(ibns);
@@ -46,7 +65,7 @@ public class LibroController {
             List<Ejemplar> ejemplarList = new ArrayList<>();
 
             for (int i = 0; i < libro.getCantEjemplar(); i++) {
-                ejemplarList.add(new Ejemplar(libro, (i+1)));
+                ejemplarList.add(new Ejemplar(libro, (i+1), ubicacion));
 
             }
 
@@ -58,77 +77,61 @@ public class LibroController {
     }
 
     public static void devolverLibro(){
-        System.out.println("Seleccionar socio que devolvera el libro");
-        System.out.println("1 -> Socio comun");
-        System.out.println("2 -> Socio VIP");
-        int opcSc = sc.nextInt();
-        System.out.println("Seleccione un id");
-        List<ISocio> socioList = SocioController.getSocioList();
-        if(opcSc == 1){
-
-            List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof SocioProxy).toList();
-
-            System.out.println("Socios comunes");
-            socioSelcDevolver(sociComun, libroList);
-
-        }else{
-            List<ISocio> socioVIO = socioList.stream().filter(socioVIP -> socioVIP instanceof SocioVIP).toList();
-            System.out.println("Socio VIP");
-            socioSelcDevolver(socioVIO, libroList);
-        }
+        socioSelcDevolver(filterSocioVIPCom());
     }
 
-    public static void libSelecion(int opSocId, List<ISocio> socioList){
-        System.out.println("Seleccione el libro a prestar");
+    public static void prestarLibro(){
+        soscioSelcPrestar(filterSocioVIPCom());
+
+    }
+
+    // Private
+
+    private static void libSelecion(int opSocId, List<ISocio> socioList){
+        System.out.println("Seleccione el 'ISNB' de libro a prestar");
         libroList.forEach(libro -> {
-            System.out.println("libri ->"+libro.getIBNS());
+            System.out.println("\n" +
+                    "Libro\n" +
+                    "Codigo ISNB: "+libro.getIBNS() +"\n"+
+                    "name: "+libro.getName()+"\n");
 
         });
-        sc.nextLine();
+        System.out.print("-> ");
         String opcLibro = sc.nextLine();
 
         socioList.forEach(socio -> {
             if(socio.getId() == opSocId){
                 Optional<Libro> libroOptional = libroList.stream().filter(libro -> libro.getIBNS().equalsIgnoreCase(opcLibro)).findAny();
-                System.out.println("libroOptional "+libroOptional);
-                libroOptional.ifPresent(libro -> socio.pedirEjemplar(libro.prestar(socio)));
+
+                libroOptional.ifPresent(libro ->  socio.pedirEjemplar(libro.prestar(socio)));
 
 
             }
         });
     }
 
-    public static void prestarLibro(){
-        System.out.println("Seleccionar socio para presar");
-        System.out.println("1 -> Socio comun");
-        System.out.println("2 -> Socio VIP");
-        int opcSc = sc.nextInt();
 
-        List<ISocio> socioList = SocioController.getSocioList();
+    private static List<ISocio> filterSocioVIPCom(){
+        contextMensaje.imprimir(new MsjSocio());
+        int opcSc = Integer.parseInt(contextMensaje.respuesta());
 
+        System.out.println("Seleccione un ID");
+        List<ISocio> filter;
         if(opcSc == 1){
-
-            List<ISocio> sociComun = socioList.stream().filter(socio -> socio instanceof SocioProxy).toList();
-
-            System.out.println("Socios comunes");
-            soscioSelcPrestar(sociComun);
+            filter = SocioController.getSocioList().stream().filter(socio -> socio instanceof SocioProxy).toList();
 
         }else{
-            List<ISocio> socioVIO = socioList.stream().filter(socioVIP -> socioVIP instanceof SocioVIP).toList();
-            System.out.println("Socio VIP");
-            soscioSelcPrestar(socioVIO);
+            filter = SocioController.getSocioList().stream().filter(socioVIP -> socioVIP instanceof SocioVIP).toList();
         }
 
+        return filter;
     }
 
-    // Private
-    private static void socioSelcDevolver(List<ISocio> socioList, List<Libro> libroList){
-        socioList.forEach(socio -> {
-            System.out.println("id -> "+ socio.getId());
-            System.out.println("Full name -> "+socio.getName()+", "+socio.getLasName());
-        });
+    private static void socioSelcDevolver(List<ISocio> socioList){
 
-        int opSocId = sc.nextInt();
+        contextMensaje.imprimir(new MsjSocioDescripcion(socioList, TyposDescripcion.LIST_DESCRIPCION_SOCIO));
+
+        int opSocId = contextMensaje.respuestaInt();
 
         socioList.forEach(socio -> {
             if(socio.getId() == opSocId){
@@ -136,19 +139,23 @@ public class LibroController {
                 if(socio instanceof SocioVIP) {
                     System.out.println("Seleccione el IBNS del ejemplar a devolver");
                     socio.getEjemplaresRetirados().forEach(ejemplar -> System.out.println(ejemplar.getLibro().getIBNS()));
+                    System.out.print("-> ");
                     sc.nextLine();
                     String ibnsSel = sc.nextLine();
 
 
                     libroList.forEach(libro -> {
                         if(Objects.equals(libro.getIBNS(), ibnsSel)){
-                            libro.registrar(socio.devolverEjemplar(ibnsSel), socio);
+                            Ejemplar ejemplar = socio.devolverEjemplar(ibnsSel);
+                            libro.registrar(ejemplar, socio);
                         }
                     });
 
                 }else{
-                    SocioProxy socioProxy = new SocioProxy(socio);
-                    libroList.forEach(libro -> libro.registrar(socioProxy.devolverEjemplar(), socio));
+                    assert socio instanceof SocioProxy;
+                    SocioProxy socioProxy = (SocioProxy) socio;
+                    Ejemplar ejemplar = socioProxy.devolverEjemplar();
+                    libroList.forEach(libro -> libro.registrar(ejemplar, socio));
                 }
 
             }
@@ -157,16 +164,13 @@ public class LibroController {
     }
 
     private static void soscioSelcPrestar(List<ISocio> socioStream){
-        socioStream.forEach(socio -> {
-            System.out.println("id -> "+ socio.getId());
-            System.out.println("Full name -> "+socio.getName()+", "+socio.getLasName());
-        });
 
-        int opSocId = sc.nextInt();
+        contextMensaje.imprimir(new MsjSocioDescripcion(socioStream, TyposDescripcion.LIST_DESCRIPCION_SOCIO));
+
+        int opSocId = contextMensaje.respuestaInt();
 
         libSelecion(opSocId, socioStream);
     }
-
 
 
     public static List<Libro> getLibroList() {

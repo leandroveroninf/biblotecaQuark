@@ -1,7 +1,7 @@
 package com.example.biblotecaQuark.Vista.CahinOfRepository;
 
-import com.example.biblotecaQuark.Controlador.LibroController;
-import com.example.biblotecaQuark.Controlador.SocioController;
+import com.example.biblotecaQuark.Presentador.LibroController;
+import com.example.biblotecaQuark.Presentador.SocioController;
 
 public class OpcSocio extends MenuOpciones{
     @Override
@@ -18,6 +18,7 @@ public class OpcSocio extends MenuOpciones{
                 System.out.println("3 -> Pedir libro");
                 System.out.println("4 -> Devolver libro");
                 System.out.println("5 -> Volver");
+                System.out.print("-> ");
                 opcSel = sc.nextInt();
 
                 if (opcSel == 1) {

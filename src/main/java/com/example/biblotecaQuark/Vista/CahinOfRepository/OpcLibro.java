@@ -1,7 +1,7 @@
 package com.example.biblotecaQuark.Vista.CahinOfRepository;
 
-import com.example.biblotecaQuark.Controlador.LibroController;
-import com.example.biblotecaQuark.Modelo.Libro.Libro;
+import com.example.biblotecaQuark.Modelo.Prestamo.Prestamo;
+import com.example.biblotecaQuark.Presentador.LibroController;
 
 // Opc 1;
 public class OpcLibro extends MenuOpciones{
@@ -9,7 +9,7 @@ public class OpcLibro extends MenuOpciones{
     public void opcion(Integer opc) {
 
         if(opc == 1) {
-            int opcLib = 5;
+            int opcLib = 6;
             do {
                 System.out.println("************************");
                 System.out.println("****** Menu Libro ******");
@@ -18,7 +18,9 @@ public class OpcLibro extends MenuOpciones{
                 System.out.println("2 -> Listar libros");
                 System.out.println("3 -> Prestar libro");
                 System.out.println("4 -> Devolver libro");
-                System.out.println("5 -> Volver");
+                System.out.println("5 -> Prestamos optenidos");
+                System.out.println("6 -> Volver");
+                System.out.print("-> ");
                 opcLib = sc.nextInt();
 
                 if (opcLib == 1) {
@@ -29,10 +31,12 @@ public class OpcLibro extends MenuOpciones{
                     LibroController.prestarLibro();
                 } else if (opcLib == 4) {
                     LibroController.devolverLibro();
+                }else if (opcLib == 5) {
+                    Prestamo.ObtenerPrestamos().forEach(prestamoData -> System.out.println(prestamoData.toString()));
                 }
 
 
-            }while (opcLib != 5);
+            }while (opcLib != 6);
 
         }else{
             this.menuOpciones.opcion(opc);

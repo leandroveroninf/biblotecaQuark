@@ -25,14 +25,17 @@ public class SocioVIP extends ISocio{
 
     @Override
     public String toString() {
-        return "SocioVIP{" +
-                "cuetaMensual=" + cuetaMensual +
-                ", name='" + name + '\'' +
-                ", lasName='" + lasName + '\'' +
-                ", id=" + id +
-                ", ejemplaresRetirados=" + ejemplaresRetirados +
-                ", cantRetirar=" + cantRetirar +
-                '}';
+
+        return "\n-----------------------------\n" +
+                "SOCIO VIP" +"\n"+
+                "id: "+ id +"\n"+
+                "name: "+ name +"\n" +
+                "lasName: "+ lasName +"\n" +
+                "cuetaMensual=" + cuetaMensual +"\n"+
+                "Cantidad que puede retirar: "+cantRetirar +"\n"+
+                "Ejemplares Retirados "+ ejemplaresRetirados+"\n" +
+                "-----------------------------\n";
+
     }
 
     @Override

@@ -9,9 +9,12 @@ public class Ejemplar {
 
     private Libro libro;
 
-    public Ejemplar(Libro libro, Integer numEdcion) {
+    private String ubicacion;
+
+    public Ejemplar(Libro libro, Integer numEdcion, String ubicacion) {
         this.numEdition = numEdcion;
         this.libro = libro;
+        this.ubicacion = ubicacion;
     }
 
     public Ejemplar(Libro libro){
@@ -36,15 +39,25 @@ public class Ejemplar {
         this.libro = libro;
     }
 
-// TOSTRING
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    // TOSTRING
 
 
     @Override
     public String toString() {
-        return "Ejemplar{" +
-                "numEdition=" + numEdition +
-                ", libro={" + libro.getName() +", "+ libro.getIBNS() +", "+ libro.getAutor()  +
-                "} "+
-                '}';
+
+        return "\n------------------\n" +
+                "numedo de edicion: "+numEdition+"\n" +
+                "Ubicacion: "+ ubicacion+ "\n" +
+                "pertenece al libro: Name -> \t\t"+ libro.getName() +", Autor -> "+ libro.getAutor() +", INBS-> "+ libro.getIBNS() +"\n"+
+                "------------------\n";
+
     }
 }

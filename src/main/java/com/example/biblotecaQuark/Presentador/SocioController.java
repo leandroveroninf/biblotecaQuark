@@ -1,37 +1,40 @@
-package com.example.biblotecaQuark.Controlador;
+package com.example.biblotecaQuark.Presentador;
 
 import com.example.biblotecaQuark.Modelo.FactorySocios.*;
+import com.example.biblotecaQuark.Presentador.StrategyMsj.ContextMensaje;
+import com.example.biblotecaQuark.Presentador.StrategyMsj.MsjSocio;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class SocioController {
 
     private static List<ISocio> socioList;
     private static Scanner sc = new Scanner(System.in);
+    private static ContextMensaje contextMensaje = new ContextMensaje();
+
 
     public static void dataSocio(){
         socioList = new ArrayList<>();
         System.out.println("********SOCIO*********");
         System.out.println("Cantidad de socio");
+        System.out.print("-> ");
         int cant = sc.nextInt();
         ICreatorSocio creatorSocio;
 
         for (int i = 0; i < cant; i++){
-            System.out.println("1 -> Socio comun");
-            System.out.println("2 -> Socio VIP");
-            int opc = sc.nextInt();
+            contextMensaje.imprimir(new MsjSocio());
+            int opc = contextMensaje.respuestaInt();
+
             if(opc == 1){
                 creatorSocio = new CreateSocio();
             }else{
                 creatorSocio = new CreateSocioVIP();
             }
-            sc.nextLine();
-            System.out.println("nombre");
+            System.out.print("Name: ");
             String nombre = sc.nextLine();
-            System.out.println("apellido");
+            System.out.print("LasName: ");
             String apellido = sc.nextLine();
 
             socioList.add(creatorSocio.createSocio(nombre, apellido));

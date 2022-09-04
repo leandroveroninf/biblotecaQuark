@@ -1,8 +1,9 @@
 package com.example.biblotecaQuark.Modelo.Libro;
 
 import com.example.biblotecaQuark.Modelo.FactorySocios.ISocio;
+import com.example.biblotecaQuark.Modelo.Prestamo.PrestamoTypo;
 import com.example.biblotecaQuark.Modelo.Singleton.ISBN;
-import com.example.biblotecaQuark.Modelo.Singleton.Prestamo;
+import com.example.biblotecaQuark.Modelo.Prestamo.Prestamo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,10 @@ public class Libro implements ILibro{
     public Ejemplar prestar(ISocio socio) {
         if(this.disponibles() && socio.cupo()){
             socioList.add(socio);
-            return ejemplarList.remove(0);
+            Ejemplar ejemplar = ejemplarList.remove(0);
+            prestamo = new Prestamo(ejemplar, socio);
+            prestamo.tipoOperacion(PrestamoTypo.PRESTADO);
+            return ejemplar;
         }
         return null;
     }
@@ -46,7 +50,8 @@ public class Libro implements ILibro{
         if(ejemplarList.size() < this.cantEjemplar){
 
             socioList = socioList.stream().filter(socio -> !Objects.equals(socio.getId(), socioRetira.getId())).toList();
-
+            prestamo = new Prestamo(ejemplar, socioRetira);
+            prestamo.tipoOperacion(PrestamoTypo.DEVUELTO);
             ejemplarList.add(ejemplar);
         }
     }
@@ -118,14 +123,14 @@ public class Libro implements ILibro{
 
     @Override
     public String toString() {
-        return "Libro{" +
-                "name='" + name + '\'' +
-                ", IBNS='" + IBNS + '\'' +
-                ", autor='" + autor + '\'' +
-                ", cantEjemplar=" + cantEjemplar +
-                ", prestamo=" + prestamo +
-                ", ejemplarList= {" + ejemplarList +"}"+
-                ", socioList Saca=" + socioList +
-                '}';
+
+        return "\n*****************************************\n" +
+                "name: "+name+"\n" +
+                "autor: "+autor +"\n"+
+                "IBNS: "+IBNS+"\n" +
+                "Cantidad de ejemplares disponibles: "+ (socioList.size() - cantEjemplar) +"\n" +
+                "Ejemplares: -> \t\t"+ejemplarList+"\n" +
+                "Prestado a los soscios: -> \t\t"+socioList+"\n" +
+                "*****************************************\n";
     }
 }

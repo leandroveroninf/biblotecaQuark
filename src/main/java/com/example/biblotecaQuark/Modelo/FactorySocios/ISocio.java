@@ -1,6 +1,8 @@
 package com.example.biblotecaQuark.Modelo.FactorySocios;
 
 import com.example.biblotecaQuark.Modelo.Libro.Ejemplar;
+import com.example.biblotecaQuark.Modelo.Prestamo.Prestamo;
+import com.example.biblotecaQuark.Modelo.Prestamo.PrestamoTypo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,8 @@ public abstract class ISocio {
     public void pedirEjemplar(Ejemplar ejemplar){
         if(this.cupo()){
             this.cantRetirar--;
-            System.out.println("ejemplar: "+ejemplar);
+            Prestamo prestamo = new Prestamo(ejemplar, this);
+            prestamo.tipoOperacion(PrestamoTypo.PRESTADO);
             this.ejemplaresRetirados.add(ejemplar);
         }
     }
@@ -36,7 +39,13 @@ public abstract class ISocio {
         if(!this.ejemplaresRetirados.isEmpty()){
             for(int i = 0; i < ejemplaresRetirados.size(); i++){
                 if(Objects.equals(ejemplaresRetirados.get(i).getLibro().getIBNS(), codIBNS)){
-                    return ejemplaresRetirados.remove(i);
+
+                    Ejemplar ejemplar = ejemplaresRetirados.remove(i);
+
+                    Prestamo prestamo = new Prestamo(ejemplar, this);
+                    prestamo.tipoOperacion(PrestamoTypo.DEVUELTO);
+
+                    return ejemplar;
                 }
             }
         }
