@@ -1,5 +1,7 @@
 package com.example.biblotecaQuark.Vista.CahinOfRepository;
 
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsNotNull;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsint;
 import com.example.biblotecaQuark.Presentador.EjemplarController;
 
 public class OpcEjemplares extends MenuOpciones{
@@ -14,7 +16,9 @@ public class OpcEjemplares extends MenuOpciones{
                 System.out.println("1 -> Agregar ejemplar");
                 System.out.println("2 -> Listar ejemplares");
                 System.out.print("-> ");
-                opcSel = sc.nextInt();
+                validaDecorador = new ValidaIsint(new ValidaIsNotNull());
+                validaDecorador.dateInt(sc.nextLine());
+                opcSel = validaDecorador.resultInt();
                 if (opcSel == 1) {
                     EjemplarController.addEjempalar();
                 } else if (opcSel == 2) {

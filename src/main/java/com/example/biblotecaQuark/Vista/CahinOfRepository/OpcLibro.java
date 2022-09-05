@@ -1,6 +1,8 @@
 package com.example.biblotecaQuark.Vista.CahinOfRepository;
 
 import com.example.biblotecaQuark.Modelo.Prestamo.Prestamo;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsNotNull;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsint;
 import com.example.biblotecaQuark.Presentador.LibroController;
 
 // Opc 1;
@@ -21,7 +23,9 @@ public class OpcLibro extends MenuOpciones{
                 System.out.println("5 -> Prestamos optenidos");
                 System.out.println("6 -> Volver");
                 System.out.print("-> ");
-                opcLib = sc.nextInt();
+                validaDecorador = new ValidaIsint(new ValidaIsNotNull());
+                validaDecorador.dateInt(sc.nextLine());
+                opcLib = validaDecorador.resultInt();
 
                 if (opcLib == 1) {
                     LibroController.dataLibro();

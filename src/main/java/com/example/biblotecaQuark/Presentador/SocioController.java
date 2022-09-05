@@ -1,6 +1,7 @@
 package com.example.biblotecaQuark.Presentador;
 
 import com.example.biblotecaQuark.Modelo.FactorySocios.*;
+import com.example.biblotecaQuark.Presentador.Decorador.*;
 import com.example.biblotecaQuark.Presentador.StrategyMsj.ContextMensaje;
 import com.example.biblotecaQuark.Presentador.StrategyMsj.MsjSocio;
 
@@ -13,31 +14,24 @@ public class SocioController {
     private static List<ISocio> socioList;
     private static Scanner sc = new Scanner(System.in);
     private static ContextMensaje contextMensaje = new ContextMensaje();
-
+    private static ValidaDecorador validaDecorador;
 
     public static void dataSocio(){
-        socioList = new ArrayList<>();
-        System.out.println("********SOCIO*********");
-        System.out.println("Cantidad de socio");
-        System.out.print("-> ");
-        int cant = sc.nextInt();
+
         ICreatorSocio creatorSocio;
+        socioList = new ArrayList<>();
+        int cant = cantSocios();
 
         for (int i = 0; i < cant; i++){
             contextMensaje.imprimir(new MsjSocio());
-            int opc = contextMensaje.respuestaInt();
 
-            if(opc == 1){
+            if(contextMensaje.respuestaInt() == 1){
                 creatorSocio = new CreateSocio();
             }else{
                 creatorSocio = new CreateSocioVIP();
             }
-            System.out.print("Name: ");
-            String nombre = sc.nextLine();
-            System.out.print("LasName: ");
-            String apellido = sc.nextLine();
 
-            socioList.add(creatorSocio.createSocio(nombre, apellido));
+            crearSocio(creatorSocio);
 
         }
     }
@@ -48,4 +42,47 @@ public class SocioController {
     public static void setSocioList(List<ISocio> socioList) {
         SocioController.socioList = socioList;
     }
+
+
+
+    // METODOS PRIVADOS
+    private static Integer cantSocios(){
+
+        validaDecorador = new ValidaIsint(new ValidaIsNotNull());
+        int cant;
+
+        System.out.println("********SOCIO*********");
+        System.out.println("Cantidad de socio");
+        System.out.print("-> ");
+
+        validaDecorador.dateInt(sc.nextLine());
+        cant = validaDecorador.resultInt();
+
+        return cant;
+    }
+
+
+
+    private static void crearSocio(ICreatorSocio creatorSocio){
+
+        String nombre;
+        String apellido;
+
+        validaDecorador = new ValidaIsString( new ValidaIsNotNull());
+        System.out.print("-> Name: ");
+        validaDecorador.dateString(sc.nextLine());
+        nombre = validaDecorador.resultString();
+        System.out.print("-> LasName: ");
+        validaDecorador.dateString(sc.nextLine());
+        apellido = validaDecorador.resultString();
+
+
+
+
+        socioList.add(creatorSocio.createSocio(nombre, apellido));
+    }
+
+
+
+
 }

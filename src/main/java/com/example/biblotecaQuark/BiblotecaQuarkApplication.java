@@ -3,6 +3,9 @@ package com.example.biblotecaQuark;
 import com.example.biblotecaQuark.Modelo.FactorySocios.*;
 import com.example.biblotecaQuark.Modelo.Libro.Ejemplar;
 import com.example.biblotecaQuark.Modelo.Libro.Libro;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaDecorador;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsNotNull;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsint;
 import com.example.biblotecaQuark.Vista.CahinOfRepository.*;
 
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ public class BiblotecaQuarkApplication {
 
 		opcLibro.agregarSigOpc(opcSocio);
 		opcSocio.agregarSigOpc(opcEjemp);
+		ValidaDecorador validaDecorador = new ValidaIsint(new ValidaIsNotNull());
 		int opc = 0;
 		do {
 			System.out.println("******************");
@@ -36,8 +40,8 @@ public class BiblotecaQuarkApplication {
 			System.out.println("3 -> Ejemplar");
 			System.out.println("4 -> Salir");
 			System.out.print("-> ");
-
-			opc = sc.nextInt();
+			validaDecorador.dateInt(sc.nextLine());
+			opc = validaDecorador.resultInt();
 
 			opcLibro.opcion(opc);
 		}while (opc != 4);

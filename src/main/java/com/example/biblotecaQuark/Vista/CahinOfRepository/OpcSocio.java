@@ -1,5 +1,7 @@
 package com.example.biblotecaQuark.Vista.CahinOfRepository;
 
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsNotNull;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsint;
 import com.example.biblotecaQuark.Presentador.LibroController;
 import com.example.biblotecaQuark.Presentador.SocioController;
 
@@ -19,7 +21,9 @@ public class OpcSocio extends MenuOpciones{
                 System.out.println("4 -> Devolver libro");
                 System.out.println("5 -> Volver");
                 System.out.print("-> ");
-                opcSel = sc.nextInt();
+                validaDecorador = new ValidaIsint(new ValidaIsNotNull());
+                validaDecorador.dateInt(sc.nextLine());
+                opcSel = validaDecorador.resultInt();
 
                 if (opcSel == 1) {
                     SocioController.dataSocio();
