@@ -12,14 +12,5 @@ public abstract class AbstractMensaje {
         abstract void imprimirMensaje();
         abstract String respuestaString();
 
-        public Integer respuestaInt() {
-                try{
-                        resultInt = Integer.parseInt(result);
-                        return resultInt;
-                }catch (Exception e){
-                        System.out.println("Deves ingresar un numero");
-                        imprimirMensaje();
-                }
-                return null;
-        }
+        abstract Integer respuestaInt();
 }

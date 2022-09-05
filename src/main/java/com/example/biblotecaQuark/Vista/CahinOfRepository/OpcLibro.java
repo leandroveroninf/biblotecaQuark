@@ -31,6 +31,7 @@ public class OpcLibro extends MenuOpciones{
                     LibroController.dataLibro();
                 } else if (opcLib == 2) {
                     System.out.println(LibroController.getLibroList());
+
                 } else if (opcLib == 3) {
                     LibroController.prestarLibro();
                 } else if (opcLib == 4) {

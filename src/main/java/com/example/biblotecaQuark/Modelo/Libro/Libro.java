@@ -12,12 +12,12 @@ import java.util.Objects;
 
 public class Libro implements ILibro{
     private String name;
-    private String IBNS;
+    private int IBNS;
     private String autor;
     private Integer cantEjemplar;
     private Prestamo prestamo;
-    private List<Ejemplar> ejemplarList;
-    private List<ISocio> socioList = new ArrayList<>();
+    private List<Ejemplar> ejemplarList = new ArrayList<Ejemplar>();
+    private List<ISocio> socioList = new ArrayList<ISocio>();
 
     public Libro(String name, String autor) {
         this.name = name;
@@ -36,6 +36,7 @@ public class Libro implements ILibro{
     @Override
     public Ejemplar prestar(ISocio socio) {
         if(this.disponibles() && socio.cupo()){
+            System.out.println("Socio a prestar: "+socio.toString());
             socioList.add(socio);
             Ejemplar ejemplar = ejemplarList.remove(0);
             prestamo = new Prestamo(ejemplar, socio);
@@ -49,7 +50,8 @@ public class Libro implements ILibro{
     public void registrar(Ejemplar ejemplar, ISocio socioRetira) {
         if(ejemplarList.size() < this.cantEjemplar){
 
-            socioList = socioList.stream().filter(socio -> !Objects.equals(socio.getId(), socioRetira.getId())).toList();
+            List<ISocio> s = socioList.stream().filter(socio -> socio.getId() != socioRetira.getId()).toList();
+            socioList = new ArrayList<>(s);
             prestamo = new Prestamo(ejemplar, socioRetira);
             prestamo.tipoOperacion(PrestamoTypo.DEVUELTO);
             ejemplarList.add(ejemplar);
@@ -57,7 +59,7 @@ public class Libro implements ILibro{
     }
 
     @Override
-    public Boolean crearISBN(String isbn) {
+    public Boolean crearISBN(int isbn) {
         if(!ISBN.getInstance(isbn)){
             return false;
         }
@@ -77,11 +79,11 @@ public class Libro implements ILibro{
         this.name = name;
     }
 
-    public String getIBNS() {
+    public int getIBNS() {
         return IBNS;
     }
 
-    public void setIBNS(String IBNS) {
+    public void setIBNS(int IBNS) {
         this.IBNS = IBNS;
     }
 

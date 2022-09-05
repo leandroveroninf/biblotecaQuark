@@ -5,6 +5,7 @@ import com.example.biblotecaQuark.Modelo.Libro.Libro;
 import com.example.biblotecaQuark.Presentador.Decorador.ValidaDecorador;
 import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsNotNull;
 import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsString;
+import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsint;
 import com.example.biblotecaQuark.Presentador.StrategyMsj.MsjLibro;
 import com.example.biblotecaQuark.Presentador.StrategyMsj.TyposDescripcion;
 
@@ -22,7 +23,7 @@ public class MsjLibroDescipcion extends MsjLibro {
 
 
         if(typosDescripcion == TyposDescripcion.LIST_ISNB_LIBRO){
-            this.result = imprimeISBN_Libro();
+            this.resultInt = imprimeISBN_Libro();
         }
 
     }
@@ -32,9 +33,14 @@ public class MsjLibroDescipcion extends MsjLibro {
         return result;
     }
 
-    private String imprimeISBN_Libro(){
+    @Override
+    public Integer respuestaInt(){
+        return resultInt;
+    }
 
-        validaDecorador = new ValidaIsString( new ValidaIsNotNull());
+    private int imprimeISBN_Libro(){
+
+        validaDecorador = new ValidaIsint( new ValidaIsNotNull());
 
         System.out.println("Seleccione el 'ISNB' del libro");
         libroList.forEach(libro -> {
@@ -48,7 +54,7 @@ public class MsjLibroDescipcion extends MsjLibro {
         System.out.print("-> ");
         validaDecorador.dateInt(sc.nextLine());
 
-        return validaDecorador.resultString();
+        return validaDecorador.resultInt();
     }
 
 }

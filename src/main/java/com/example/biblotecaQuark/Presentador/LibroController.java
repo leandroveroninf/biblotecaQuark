@@ -15,7 +15,7 @@ import com.example.biblotecaQuark.Presentador.StrategyMsj.TyposDescripcion;
 import java.util.*;
 
 public class LibroController {
-    private static List<Libro> libroList;
+    private static List<Libro> libroList = new ArrayList<Libro>();
     private static Scanner sc = new Scanner(System.in);
 
     private static ContextMensaje contextMensaje = new ContextMensaje();
@@ -24,7 +24,6 @@ public class LibroController {
 
     // Para crear los libros
     public static void dataLibro(){
-        libroList = new ArrayList<>();
         int cantLicbos = cantLibro();
 
         validaDecorador = new ValidaIsString(new ValidaIsNotNull());
@@ -33,40 +32,31 @@ public class LibroController {
 
             String name;
             String autor;
-            String IBNS;
+            int IBNS;
             int cantEjem = 0;
             String ubicacion;
 
 
             System.out.println("Libro ----");
-            System.out.println("-> name");
-            System.out.print("-> ");
+            System.out.print("-> name: ");
             validaDecorador.dateString(sc.nextLine());
             name = validaDecorador.resultString();
 
-            System.out.println("-> autor");
-            System.out.print("-> ");
+            System.out.print("-> autor: ");
             validaDecorador.dateString(sc.nextLine());
             autor = validaDecorador.resultString();
 
-            System.out.println("Ubicacion de los ejempalres");
-            System.out.print("-> ");
+            System.out.print("Ubicacion de los ejempalres: ");
             validaDecorador.dateString(sc.nextLine());
             ubicacion = validaDecorador.resultString();
 
             validaDecorador = new ValidaIsint(new ValidaIsNotNull());
 
-            System.out.println("-> IBNS");
-            System.out.print("-> ");
+            System.out.print("-> IBNS: ");
             validaDecorador.dateInt(sc.nextLine());
-            IBNS = validaDecorador.resultString();
+            IBNS = validaDecorador.resultInt();
 
-
-
-
-
-            System.out.println("Cantidad de ejemlates");
-            System.out.print("-> ");
+            System.out.print("Cantidad de ejemlates: ");
 
             validaDecorador.dateInt(sc.nextLine());
             cantEjem = validaDecorador.resultInt();
@@ -80,15 +70,14 @@ public class LibroController {
 
     }
 
-    private static void createLibro(String name, String autor, String ubicacion, String INBS, int cantEjm){
+    private static void createLibro(String name, String autor, String ubicacion, int INBS, int cantEjm){
         Libro libro = new Libro(name, autor);
         boolean atISBN = libro.crearISBN(INBS);
         validaDecorador = new ValidaIsint(new ValidaIsNotNull());
         while(!atISBN){
-            System.out.println("-> IBNS");
-            System.out.print("-> ");
+            System.out.print("-> IBNS: ");
             validaDecorador.dateInt(sc.nextLine());
-            INBS = validaDecorador.resultString();
+            INBS = validaDecorador.resultInt();
             atISBN = libro.crearISBN(INBS);
         }
 
@@ -105,6 +94,8 @@ public class LibroController {
         libro.setEjemplarList(ejemplarList);
 
         libroList.add(libro);
+
+        System.out.println("LIBRO CREADO");
     }
 
     private static Integer cantLibro(){
@@ -112,8 +103,7 @@ public class LibroController {
         validaDecorador = new ValidaIsint(new ValidaIsNotNull());
         int cant;
 
-        System.out.println("Cantidad de libros");
-        System.out.print("-> ");
+        System.out.print("Cantidad de libros: ");
         validaDecorador.dateInt(sc.nextLine());
         cant = validaDecorador.resultInt();
 
@@ -128,7 +118,8 @@ public class LibroController {
 
     public static void prestarLibro(){
         List<ISocio> socioList = filterSocioVIPCom();
-        libSelecion(selcSocio(socioList), socioList);
+        int socio = selcSocio(socioList);
+        libSelecion(socio, socioList);
 
     }
 
@@ -138,14 +129,22 @@ public class LibroController {
 
     private static void libSelecion(int opSocId, List<ISocio> socioList){
         contextMensaje.imprimir(new MsjLibroDescipcion(libroList, TyposDescripcion.LIST_ISNB_LIBRO));
-        String opcLibro = contextMensaje.respuesta();
+        int opcLibro = contextMensaje.respuestaInt();
 
         socioList.forEach(socio -> {
             if(socio.getId() == opSocId){
-                Optional<Libro> libroOptional = libroList.stream().filter(libro -> libro.getIBNS().equalsIgnoreCase(opcLibro)).findAny();
+                Optional<Libro> libroOptional = libroList.stream().filter(libro -> libro.getIBNS() == opcLibro).findAny();
 
-                libroOptional.ifPresent(libro ->  socio.pedirEjemplar(libro.prestar(socio)));
+                if(socio.cupo()) {
 
+
+                    if (libroOptional.isPresent()) {
+                        libroOptional.ifPresent(libro -> socio.pedirEjemplar(libro.prestar(socio)));
+                        System.out.println("Libro prestado a: " + socio.getName() + " " + socio.getLasName());
+                    }
+                }else{
+                    System.out.println("No puede retirar el ejemplar ya que no tiene mas cupos");
+                }
 
             }
         });
@@ -153,7 +152,7 @@ public class LibroController {
 
     private static List<ISocio> filterSocioVIPCom(){
         contextMensaje.imprimir(new MsjSocio());
-        int opcSc = Integer.parseInt(contextMensaje.respuesta());
+        int opcSc = contextMensaje.respuestaInt();
 
         System.out.println("Seleccione un ID");
         List<ISocio> filter;
@@ -177,13 +176,17 @@ public class LibroController {
                 if(socio instanceof SocioVIP) {
                     contextMensaje.imprimir(new MsjSocioDescripcion(socio, TyposDescripcion.LIST_ISNB_SOCIO_DEVOLVER));
 
-                    String ibnsSel = contextMensaje.respuesta();
+                    int ibnsSel = contextMensaje.respuestaInt();
 
 
                     libroList.forEach(libro -> {
-                        if(Objects.equals(libro.getIBNS(), ibnsSel)){
+                        if(libro.getIBNS() == ibnsSel){
                             Ejemplar ejemplar = socio.devolverEjemplar(ibnsSel);
+                            System.out.println("Ejemplar devuelto\n" +
+                                    "\t\t Edicion: "+ejemplar.getNumEdition());
+
                             libro.registrar(ejemplar, socio);
+
                         }
                     });
 
@@ -191,6 +194,8 @@ public class LibroController {
                     assert socio instanceof SocioProxy;
                     SocioProxy socioProxy = (SocioProxy) socio;
                     Ejemplar ejemplar = socioProxy.devolverEjemplar();
+                    System.out.println("Ejemplar devuelto\n" +
+                            "\t\t Edicion: "+ejemplar.getNumEdition());
                     libroList.forEach(libro -> libro.registrar(ejemplar, socio));
                 }
 

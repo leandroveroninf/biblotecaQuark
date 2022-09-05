@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class SocioController {
 
-    private static List<ISocio> socioList;
+    private static List<ISocio> socioList = new ArrayList<ISocio>();
     private static Scanner sc = new Scanner(System.in);
     private static ContextMensaje contextMensaje = new ContextMensaje();
     private static ValidaDecorador validaDecorador;
@@ -19,7 +19,6 @@ public class SocioController {
     public static void dataSocio(){
 
         ICreatorSocio creatorSocio;
-        socioList = new ArrayList<>();
         int cant = cantSocios();
 
         for (int i = 0; i < cant; i++){
@@ -72,6 +71,7 @@ public class SocioController {
         System.out.print("-> Name: ");
         validaDecorador.dateString(sc.nextLine());
         nombre = validaDecorador.resultString();
+
         System.out.print("-> LasName: ");
         validaDecorador.dateString(sc.nextLine());
         apellido = validaDecorador.resultString();

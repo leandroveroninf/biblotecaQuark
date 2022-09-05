@@ -10,4 +10,9 @@ public class MsjEjemplar extends AbstractMensaje{
     public String respuestaString() {
         return null;
     }
+
+    @Override
+    Integer respuestaInt() {
+        return null;
+    }
 }

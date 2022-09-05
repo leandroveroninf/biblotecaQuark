@@ -14,7 +14,7 @@ public interface ILibro {
     // Agregamos un libro que fue prestado
     void registrar(Ejemplar ejemplar, ISocio socioRetira);
     //Crear un nuevo ISBN
-    Boolean crearISBN(String isbn);
+    Boolean crearISBN(int isbn);
 
     //Crear
 }

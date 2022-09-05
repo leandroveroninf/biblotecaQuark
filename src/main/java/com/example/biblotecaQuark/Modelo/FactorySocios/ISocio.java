@@ -15,7 +15,7 @@ public abstract class ISocio {
     protected String lasName;
     protected Integer id;
 
-    protected List<Ejemplar> ejemplaresRetirados = new ArrayList<>();
+    protected List<Ejemplar> ejemplaresRetirados = new ArrayList<Ejemplar>();
     protected Integer cantRetirar;
 
     // Retorana true si hay cupos disponibles
@@ -34,11 +34,11 @@ public abstract class ISocio {
     }
 
     // Devolvemos el ejemplar
-    public Ejemplar devolverEjemplar(String codIBNS){
+    public Ejemplar devolverEjemplar(int codIBNS){
 
         if(!this.ejemplaresRetirados.isEmpty()){
             for(int i = 0; i < ejemplaresRetirados.size(); i++){
-                if(Objects.equals(ejemplaresRetirados.get(i).getLibro().getIBNS(), codIBNS)){
+                if(ejemplaresRetirados.get(i).getLibro().getIBNS() == codIBNS){
 
                     Ejemplar ejemplar = ejemplaresRetirados.remove(i);
 

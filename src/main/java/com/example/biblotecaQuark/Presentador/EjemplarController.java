@@ -24,19 +24,21 @@ public class EjemplarController {
 
     public static void addEjempalar(){
 
-        contextMensaje.imprimir(new MsjLibroDescipcion(libroList, TyposDescripcion.LIST_ISNB_LIBRO));
         System.out.println("Seleccione el IBNS que quieres crear su ejemplar");
+        contextMensaje.imprimir(new MsjLibroDescipcion(libroList, TyposDescripcion.LIST_ISNB_LIBRO));
+
 
         int ibns = contextMensaje.respuestaInt();
 
 
 
-        String finalIbns = String.valueOf(ibns);
-        Libro libroSel = libroList.stream().filter(libro -> Objects.equals(libro.getIBNS(), finalIbns)).toList().get(0);
+        int finalIbns = ibns;
+        Libro libroSel = libroList.stream().filter(libro -> libro.getIBNS() == finalIbns).toList().get(0);
 
         if(libroSel != null){
 
             System.out.println("Ingrese la cantidad de ejemplares que quieres agregar");
+            System.out.print("-> ");
             validaDecorador = new ValidaIsint(new ValidaIsNotNull());
             validaDecorador.dateInt(sc.nextLine());
             int cant = validaDecorador.resultInt();

@@ -5,7 +5,7 @@ public class CreateSocioVIP implements ICreatorSocio{
 
     @Override
     public ISocio createSocio(String name, String lasName) {
-        System.out.println(idSocioVIP);
+
         return new SocioVIP(name, lasName, idSocioVIP++);
     }
 }

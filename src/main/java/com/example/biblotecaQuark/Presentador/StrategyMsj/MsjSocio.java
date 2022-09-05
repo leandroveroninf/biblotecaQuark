@@ -36,8 +36,9 @@ public class MsjSocio extends AbstractMensaje {
     }
 
 
-    private void socioSelec(){
-
+    @Override
+    public Integer respuestaInt(){
+        return this.resultInt;
     }
 
 

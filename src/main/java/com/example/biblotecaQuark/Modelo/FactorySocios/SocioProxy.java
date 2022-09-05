@@ -18,7 +18,11 @@ public class SocioProxy extends ISocio {
     }
 
     public Ejemplar devolverEjemplar(){
-        String ibns = socio.getEjemplaresRetirados().get(0).getLibro().getIBNS();
+        if(this.socio.ejemplaresRetirados.size() == 0){
+            return null;
+        }
+        int ibns = socio.getEjemplaresRetirados().get(0).getLibro().getIBNS();
+        this.setCantRetirar(this.getCantRetirar()+1);
         return socio.devolverEjemplar(ibns);
     }
 
@@ -26,6 +30,11 @@ public class SocioProxy extends ISocio {
     public void pedirEjemplar(Ejemplar ejemplar){
 
         socio.pedirEjemplar(ejemplar);
+    }
+
+    @Override
+    public Boolean cupo(){
+        return socio.cupo();
     }
 
     @Override

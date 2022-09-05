@@ -7,13 +7,13 @@ import java.util.Objects;
 public class ISBN {
     private static ISBN isbn;
 
-    private static List<String> isbnList;
+    private static List<Integer> isbnList;
 
     private ISBN(){
-        isbnList = new ArrayList<String>();
+        isbnList = new ArrayList<Integer>();
     }
 
-    public static Boolean getInstance(String obISBN){
+    public static Boolean getInstance(int obISBN){
         if (isbn == null) {
             isbn = new ISBN();
         }
@@ -23,8 +23,8 @@ public class ISBN {
         return agregarISBN(obISBN);
     }
 
-    private static Boolean agregarISBN(String obISBN){
-        List<String> isbnfilt = isbnList.stream().filter(isbnop -> Objects.equals(isbnop, obISBN)).toList();
+    private static Boolean agregarISBN(int obISBN){
+        List<Integer> isbnfilt = isbnList.stream().filter(isbnop -> isbnop == obISBN).toList();
 
         if(isbnfilt.isEmpty()){
             isbnList.add(obISBN);

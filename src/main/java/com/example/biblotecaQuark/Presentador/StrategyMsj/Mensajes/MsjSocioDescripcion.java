@@ -31,14 +31,18 @@ public class MsjSocioDescripcion extends MsjSocio {
     public void imprimirMensaje() {
 
         if(typosDescripcion == TyposDescripcion.LIST_DESCRIPCION_SOCIO){
-            this.result = imprimirDescripcionSocio();
-            this.respuestaInt();
+            this.resultInt = imprimirDescripcionSocio();
         }
 
         if(typosDescripcion == TyposDescripcion.LIST_ISNB_SOCIO_DEVOLVER){
-            this.result = imprimeISBN_Socios();
+            this.resultInt = imprimeISBN_Socios();
         }
 
+    }
+
+    @Override
+    public Integer respuestaInt(){
+        return this.resultInt;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class MsjSocioDescripcion extends MsjSocio {
     }
 
 
-    private String imprimirDescripcionSocio(){
+    private int imprimirDescripcionSocio(){
         validaDecorador = new ValidaIsint( new ValidaIsNotNull());
 
         socioList.forEach(socio -> {
@@ -61,22 +65,26 @@ public class MsjSocioDescripcion extends MsjSocio {
         System.out.print("-> ");
         validaDecorador.dateInt(sc.nextLine());
 
-        String res = String.valueOf(validaDecorador.resultInt());
-
-        return res;
+        return validaDecorador.resultInt();
     }
 
 
-    private String imprimeISBN_Socios(){
-        validaDecorador = new ValidaIsString( new ValidaIsNotNull());
+    private int imprimeISBN_Socios(){
+        validaDecorador = new ValidaIsint( new ValidaIsNotNull());
 
-        System.out.println("Seleccione el IBNS del ejemplar a devolver");
-        socio.getEjemplaresRetirados().forEach(ejemplar -> System.out.println(ejemplar.getLibro().getIBNS()));
+        System.out.println("Seleccione el IBNS");
+        socio.getEjemplaresRetirados().forEach(ejemplar -> {
+            System.out.println(".............................\n" +
+                    "Name: "+socio.getName()+"\n" +
+                    "LasName: "+socio.getLasName()+"\n" +
+                    "IBNS: "+ejemplar.getLibro().getIBNS()+"\n" +
+                    ".............................\n");
+        });
         System.out.print("-> ");
         validaDecorador.dateInt(sc.nextLine());
 
 
-        return validaDecorador.resultString();
+        return validaDecorador.resultInt();
 
 
     }
