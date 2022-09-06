@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SocioVIP extends ISocio{
 
-    private Double cuetaMensual = 0D;
+    private int cuetaMensual = 0;
     public SocioVIP(String name, String lasName, Integer id){
         this.name = name;
         this.lasName = lasName;
@@ -15,11 +15,11 @@ public class SocioVIP extends ISocio{
         this.cantRetirar = 3;
     }
 
-    public Double getCuetaMensual() {
+    public int getCuetaMensual() {
         return cuetaMensual;
     }
 
-    public void setCuetaMensual(Double cuetaMensual) {
+    public void setCuetaMensual(int cuetaMensual) {
         this.cuetaMensual = cuetaMensual;
     }
 

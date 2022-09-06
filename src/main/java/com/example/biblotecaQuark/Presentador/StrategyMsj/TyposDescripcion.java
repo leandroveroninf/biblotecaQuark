@@ -2,11 +2,10 @@ package com.example.biblotecaQuark.Presentador.StrategyMsj;
 
 public enum TyposDescripcion {
 
-    PEDIREJ_EMPLAR,
-    DEVOLVER_EJEMPLAR,
-    LISTI_NBS_SOCIO,
+    LISTI_ISNB_EJEMPLAR,
     LIST_DESCRIPCION_SOCIO,
     LIST_ISNB_SOCIO_DEVOLVER,
-    LIST_ISNB_LIBRO
+    LIST_ISNB_LIBRO,
+    LIST_LIBRO
 
 }

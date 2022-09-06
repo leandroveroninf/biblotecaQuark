@@ -13,7 +13,11 @@ public class ValidaIsString extends ValidaDecorador{
 
     @Override
     public boolean dateString(String value) {
-        return  super.dateString(value) && this.isString(super.resultString());
+        if(super.dateString(value)){
+            return this.isString(super.resultString());
+
+        }
+        return  false;
     }
 
     @Override

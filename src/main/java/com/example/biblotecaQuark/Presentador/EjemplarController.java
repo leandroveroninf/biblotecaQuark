@@ -7,13 +7,11 @@ import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsNotNull;
 import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsString;
 import com.example.biblotecaQuark.Presentador.Decorador.ValidaIsint;
 import com.example.biblotecaQuark.Presentador.StrategyMsj.ContextMensaje;
+import com.example.biblotecaQuark.Presentador.StrategyMsj.Mensajes.MsjEjemplarDescripcion;
 import com.example.biblotecaQuark.Presentador.StrategyMsj.Mensajes.MsjLibroDescipcion;
 import com.example.biblotecaQuark.Presentador.StrategyMsj.TyposDescripcion;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class EjemplarController {
     private static Scanner sc = new Scanner(System.in);
@@ -45,14 +43,29 @@ public class EjemplarController {
 
             List<Ejemplar> ejemplarList = libroSel.getEjemplarList();
             int ulNumEd = 0;
+            String ubicacion = null;
             if(!ejemplarList.isEmpty()){
                 ulNumEd = ejemplarList.get(libroSel.getEjemplarList().size()-1).getNumEdition();
+                ubicacion = ejemplarList.get(libroSel.getEjemplarList().size()-1).getUbicacion();
             }
 
-            System.out.println("Ubicacion de los ejemplares");
-            validaDecorador = new ValidaIsString(new ValidaIsNotNull());
-            validaDecorador.dateString(sc.nextLine());
-            String ubicacion = validaDecorador.resultString();
+            if(ubicacion == null){
+                boolean ubi = true;
+                do {
+
+                    System.out.print("Ubicacion de los ejempalres: ");
+                    validaDecorador = new ValidaIsString(new ValidaIsNotNull());
+                    validaDecorador.dateString(sc.nextLine());
+                    ubicacion = validaDecorador.resultString();
+
+                    String finalUbicacion = ubicacion;
+                    Optional<Libro> libroOptional = libroList.stream().filter(libro1 -> Objects.equals(libro1.getUbicacion(), finalUbicacion)).findAny();
+                    if(libroOptional.isPresent()){
+                        ubi = false;
+                    }
+                }while(ubi);
+            }
+
             for (int i = 0; i < cant; i++){
 
                 ejemplarList.add(new Ejemplar(libroSel, ++ulNumEd, ubicacion));
@@ -66,6 +79,21 @@ public class EjemplarController {
         }else{
             System.out.println("libro no encontrado");
         }
+    }
+
+    public static void mostrarEjemplaresDelLibro(){
+        contextMensaje.imprimir(new MsjLibroDescipcion(libroList, TyposDescripcion.LIST_ISNB_LIBRO));
+        int opcLibro = contextMensaje.respuestaInt();
+
+
+        libroList.forEach(libro -> {
+            if(libro.getIBNS() == opcLibro){
+                contextMensaje.imprimir(new MsjEjemplarDescripcion(libro.getEjemplarList(), TyposDescripcion.LISTI_ISNB_EJEMPLAR));
+            }
+        });
+
+
+
     }
     public static List<Ejemplar> listEjemplar(){
         List<Ejemplar> ejemplarList = new ArrayList<>();

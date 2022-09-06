@@ -15,11 +15,10 @@ public class ValidaIsNotNull implements IValida{
             System.out.println("Tienes que ingresar un valor");
             System.out.print("-> ");
             this.dateString(sc.nextLine());
-
-            return false;
+        }else{
+            val = value;
         }
 
-        val = value;
         return true;
     }
 

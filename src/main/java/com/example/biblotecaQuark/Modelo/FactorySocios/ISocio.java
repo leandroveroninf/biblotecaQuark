@@ -27,8 +27,8 @@ public abstract class ISocio {
     public void pedirEjemplar(Ejemplar ejemplar){
         if(this.cupo()){
             this.cantRetirar--;
-            Prestamo prestamo = new Prestamo(ejemplar, this);
-            prestamo.tipoOperacion(PrestamoTypo.PRESTADO);
+            //Prestamo prestamo = new Prestamo(ejemplar, this);
+            //prestamo.tipoOperacion(PrestamoTypo.PRESTADO);
             this.ejemplaresRetirados.add(ejemplar);
         }
     }
@@ -42,8 +42,8 @@ public abstract class ISocio {
 
                     Ejemplar ejemplar = ejemplaresRetirados.remove(i);
 
-                    Prestamo prestamo = new Prestamo(ejemplar, this);
-                    prestamo.tipoOperacion(PrestamoTypo.DEVUELTO);
+              //      Prestamo prestamo = new Prestamo(ejemplar, this);
+                //    prestamo.tipoOperacion(PrestamoTypo.DEVUELTO);
 
                     return ejemplar;
                 }

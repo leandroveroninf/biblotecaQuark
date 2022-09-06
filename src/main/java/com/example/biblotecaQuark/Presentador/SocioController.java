@@ -77,9 +77,18 @@ public class SocioController {
         apellido = validaDecorador.resultString();
 
 
+        if(creatorSocio instanceof CreateSocioVIP){
+            validaDecorador = new ValidaIsint( new ValidaIsNotNull());
+            System.out.print("-> Cuota: ");
+            validaDecorador.dateInt(sc.nextLine());
+            int cuota = validaDecorador.resultInt();
 
-
-        socioList.add(creatorSocio.createSocio(nombre, apellido));
+            SocioVIP socioVIP = (SocioVIP) creatorSocio.createSocio(nombre, apellido);
+            socioVIP.setCuetaMensual(cuota);
+            socioList.add(socioVIP);
+        }else {
+            socioList.add(creatorSocio.createSocio(nombre, apellido));
+        }
     }
 
 

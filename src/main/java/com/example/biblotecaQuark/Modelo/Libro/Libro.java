@@ -18,6 +18,7 @@ public class Libro implements ILibro{
     private Prestamo prestamo;
     private List<Ejemplar> ejemplarList = new ArrayList<Ejemplar>();
     private List<ISocio> socioList = new ArrayList<ISocio>();
+    private String ubicacion;
 
     public Libro(String name, String autor) {
         this.name = name;
@@ -36,7 +37,6 @@ public class Libro implements ILibro{
     @Override
     public Ejemplar prestar(ISocio socio) {
         if(this.disponibles() && socio.cupo()){
-            System.out.println("Socio a prestar: "+socio.toString());
             socioList.add(socio);
             Ejemplar ejemplar = ejemplarList.remove(0);
             prestamo = new Prestamo(ejemplar, socio);
@@ -50,7 +50,7 @@ public class Libro implements ILibro{
     public void registrar(Ejemplar ejemplar, ISocio socioRetira) {
         if(ejemplarList.size() < this.cantEjemplar){
 
-            List<ISocio> s = socioList.stream().filter(socio -> socio.getId() != socioRetira.getId()).toList();
+            List<ISocio> s = socioList.stream().filter(socio -> !Objects.equals(socio.getId(), socioRetira.getId())).toList();
             socioList = new ArrayList<>(s);
             prestamo = new Prestamo(ejemplar, socioRetira);
             prestamo.tipoOperacion(PrestamoTypo.DEVUELTO);
@@ -119,8 +119,16 @@ public class Libro implements ILibro{
         this.ejemplarList = ejemplarList;
     }
 
+    public String getUbicacion() {
+        return ubicacion;
+    }
 
-// TO STRING
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+
+    // TO STRING
 
 
     @Override
@@ -130,7 +138,7 @@ public class Libro implements ILibro{
                 "name: "+name+"\n" +
                 "autor: "+autor +"\n"+
                 "IBNS: "+IBNS+"\n" +
-                "Cantidad de ejemplares disponibles: "+ (socioList.size() - cantEjemplar) +"\n" +
+                "Cantidad de ejemplares disponibles: "+ ( cantEjemplar - socioList.size()) +"\n" +
                 "Ejemplares: -> \t\t"+ejemplarList+"\n" +
                 "Prestado a los soscios: -> \t\t"+socioList+"\n" +
                 "*****************************************\n";

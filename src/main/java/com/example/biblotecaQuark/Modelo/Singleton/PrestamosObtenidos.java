@@ -19,9 +19,9 @@ public class PrestamosObtenidos implements IPrestamo {
     public static PrestamosObtenidos getInstance(PrestamoData prestamo){
         if(prestamosObtenidos == null){
             prestamosObtenidos = new PrestamosObtenidos();
-        }else{
-            prestamoData.add(prestamo);
         }
+
+        prestamoData.add(prestamo);
 
         return prestamosObtenidos;
     }

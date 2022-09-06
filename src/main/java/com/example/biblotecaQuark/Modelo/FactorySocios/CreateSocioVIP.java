@@ -8,4 +8,5 @@ public class CreateSocioVIP implements ICreatorSocio{
 
         return new SocioVIP(name, lasName, idSocioVIP++);
     }
+
 }

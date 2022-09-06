@@ -26,6 +26,10 @@ public class MsjLibroDescipcion extends MsjLibro {
             this.resultInt = imprimeISBN_Libro();
         }
 
+
+        if(typosDescripcion == TyposDescripcion.LIST_LIBRO){
+            listOfLibro();
+        }
     }
 
     @Override
@@ -47,14 +51,36 @@ public class MsjLibroDescipcion extends MsjLibro {
             System.out.println("********************************\n" +
                     "-> Libro \n" +
                     "\t\t Name: " + libro.getName()+"\n"+
+                    "\t\t Ubicacion en la bibloteca: "+ libro.getUbicacion()+"\n" +
                     "\t\t Codigo INBS: "+ libro.getIBNS() +"\n"+
-                    "\t\t Cant ejemplares: "+libro.getCantEjemplar()+"\n" +
+                    "\t\t Cant ejemplares disponibles: "+(libro.getEjemplarList().size())+"\n" +
                     "********************************\n");
         });
         System.out.print("-> ");
         validaDecorador.dateInt(sc.nextLine());
 
         return validaDecorador.resultInt();
+    }
+
+
+    private void listOfLibro(){
+        System.out.println("Lista completa de los libros creados");
+
+        if(libroList.size() > 0) {
+
+            libroList.forEach(libro -> {
+                System.out.println("----------------------------------------------------\n" +
+                        "-> Libro \n" +
+                        "\t\t Name: " + libro.getName() + "\n" +
+                        "\t\t Autor: " + libro.getAutor() + "\n" +
+                        "\t\t Ubicacion en la bibloteca: "+ libro.getUbicacion()+"\n" +
+                        "\t\t Codigo INBS: " + libro.getIBNS() + "\n" +
+                        "\t\t Cant ejemplares disponibles: " + (libro.getEjemplarList().size()) + "\n" +
+                        "\"----------------------------------------------------\n");
+            });
+        }else{
+            System.out.println("No hay libros reados");
+        }
     }
 
 }

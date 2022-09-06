@@ -20,7 +20,7 @@ public class OpcLibro extends MenuOpciones{
                 System.out.println("2 -> Listar libros");
                 System.out.println("3 -> Prestar libro");
                 System.out.println("4 -> Devolver libro");
-                System.out.println("5 -> Prestamos optenidos");
+                System.out.println("5 -> Historial de pedidos");
                 System.out.println("6 -> Volver");
                 System.out.print("-> ");
                 validaDecorador = new ValidaIsint(new ValidaIsNotNull());
@@ -30,14 +30,17 @@ public class OpcLibro extends MenuOpciones{
                 if (opcLib == 1) {
                     LibroController.dataLibro();
                 } else if (opcLib == 2) {
-                    System.out.println(LibroController.getLibroList());
-
+                    LibroController.findAllLibros();
                 } else if (opcLib == 3) {
                     LibroController.prestarLibro();
                 } else if (opcLib == 4) {
                     LibroController.devolverLibro();
                 }else if (opcLib == 5) {
-                    Prestamo.ObtenerPrestamos().forEach(prestamoData -> System.out.println(prestamoData.toString()));
+                    if(Prestamo.ObtenerPrestamos() != null) {
+                        Prestamo.ObtenerPrestamos().forEach(prestamoData -> System.out.println(prestamoData.toString()));
+                    }else{
+                        System.out.println("No hay Historial de pedidos");
+                    }
                 }
 
 

@@ -15,6 +15,7 @@ public class OpcEjemplares extends MenuOpciones{
                 System.out.println("*********+**************");
                 System.out.println("1 -> Agregar ejemplar");
                 System.out.println("2 -> Listar ejemplares");
+                System.out.println("3 -> Volver");
                 System.out.print("-> ");
                 validaDecorador = new ValidaIsint(new ValidaIsNotNull());
                 validaDecorador.dateInt(sc.nextLine());
@@ -22,7 +23,7 @@ public class OpcEjemplares extends MenuOpciones{
                 if (opcSel == 1) {
                     EjemplarController.addEjempalar();
                 } else if (opcSel == 2) {
-                    System.out.println(EjemplarController.listEjemplar());
+                    EjemplarController.mostrarEjemplaresDelLibro();
                 }
             }while (opcSel != 3);
         }
